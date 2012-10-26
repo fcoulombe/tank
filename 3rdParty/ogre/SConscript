@@ -1,0 +1,21 @@
+Import('env')
+
+name = "ogre"
+dependencies = []
+
+def SetCFlags(ienv):
+    ienv.ParseConfig('pkg-config --cflags OGRE')
+    ienv.ParseConfig('pkg-config --cflags OGRE-Terrain')
+
+
+def SetLFlags(ienv):
+    ienv.ParseConfig('pkg-config --libs OGRE')
+    ienv.ParseConfig('pkg-config --libs OGRE-Terrain')
+	
+dllDep = []
+if env['PLATFORM'] == "win32":
+    dllDep = [env.File('#3rdParty/sdl/lib/x86/SDL.dll')]
+elif env['PLATFORM'] == "linux":
+    dllDep = [env.File('/usr/local/lib/libOgreMain.so.1.8.1')]
+
+env.AddComponent(name, None, None,None,dependencies, SetCFlags, SetLFlags, dllDep)

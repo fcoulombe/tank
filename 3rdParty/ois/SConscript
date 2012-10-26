@@ -1,0 +1,15 @@
+Import('env')
+
+name = "ois"
+dependencies = []
+
+def SetCFlags(ienv):
+    ienv.ParseConfig('pkg-config --cflags OIS')
+
+def SetLFlags(ienv):
+    ienv.ParseConfig('pkg-config --libs OIS')
+	
+dllDep = []
+if env['PLATFORM'] == "win32":
+    dllDep = [env.File('#3rdParty/sdl/lib/x86/SDL.dll')]
+env.AddComponent(name, None, None,None,dependencies, SetCFlags, SetLFlags, dllDep)
